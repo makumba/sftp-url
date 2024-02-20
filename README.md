@@ -1,6 +1,6 @@
 The problem
 ------------
-The `sftp` protocol is not supported by default by `java.net.URL`, you will run into a `MalformedURLException`. The `ftp` protocol is supported but that is obsolete.
+The `sftp` protocol is not supported by default by `java.net.URL`, you will run into a `MalformedURLException`. The `ftp` protocol is (still) supported in some Java versions but that is obsolete.
 
 `sftp` is supported by the [Jsch library ](https://github.com/mwiede/jsch) but you cannot do `sftp` via URLs, which renders obsolete any existing code that used `ftp://` URLs and grabbed input and output streams, without caring how the protocol is actually implemented. 
 
