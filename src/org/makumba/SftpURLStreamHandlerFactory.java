@@ -24,7 +24,7 @@ import com.jcraft.jsch.SftpException;
 /**
   To support sftp:// URLs for both InputStreams and OutputStreams, pass an instance of this class to 
   java.net.URL.setURLStreamHandlerFactory
-  If you are in a tomcat environment, use a TomcatListener to install it in the server JVM.
+  If you are in a tomcat environment, use a TomcatSftpURLInstaller to install it in the server JVM.
  */
 public class SftpURLStreamHandlerFactory implements URLStreamHandlerFactory{
     HashMap<String, Session> sessions;
