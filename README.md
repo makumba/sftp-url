@@ -1,6 +1,8 @@
 The problem
 ------------
-The `sftp` protocol is not supported by default by `java.net.URL`, you will run into a `MalformedURLException`. The `ftp` protocol is (still) supported in some Java versions but that is obsolete.
+The `sftp` protocol is not supported by default by `java.net.URL`, you will run into a `MalformedURLException`. The `ftp` protocol is (still) supported in some Java versions but that is obsolete. 
+
+The goal of this package is to allow you to change your application (configuration) from `ftp://username:password@host/path/file`  to  `sftp://username:password@host/path/file` or to use certificate authentication instead of a password: `sftp://username@host/path/file`
 
 `sftp` is supported by the [Jsch library ](https://github.com/mwiede/jsch) but you cannot do `sftp` via URLs, which "blocks" any existing code that used `ftp://` URLs and grabbed input and output streams, without caring how the protocol is actually implemented. 
 
