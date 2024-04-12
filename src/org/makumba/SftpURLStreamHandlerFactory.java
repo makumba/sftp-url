@@ -24,7 +24,7 @@ import com.jcraft.jsch.SftpException;
 /**
   To support sftp:// URLs for both InputStreams and OutputStreams, pass an instance of this class to 
   java.net.URL.setURLStreamHandlerFactory
-  If you are in a tomcat environment, use a TomcatSftpURLInstaller to install it in the server JVM.
+  If you are in a tomcat environment, use a TomcatListener to install it in the server JVM.
  */
 public class SftpURLStreamHandlerFactory implements URLStreamHandlerFactory{
     HashMap<String, Session> sessions;
@@ -140,7 +140,7 @@ public class SftpURLStreamHandlerFactory implements URLStreamHandlerFactory{
 			@Override
 			    public OutputStream getOutputStream() throws IOException {
 			    try {
-				return channelSftp.put(getFileName(u));
+				return new MyOutputStream(channelSftp.put(getFileName(u)));
 			    } catch (SftpException e) {
 				throw new IOException(e);
 			    }
@@ -163,6 +163,18 @@ public class SftpURLStreamHandlerFactory implements URLStreamHandlerFactory{
 };
 
 
+class MyOutputStream extends OutputStream{
+    OutputStream wrapped;
+    boolean closed;
+    public MyOutputStream(OutputStream wrapped){
+	this.wrapped=wrapped;
+    }
+    public void close() throws IOException { wrapped.close(); closed=true; }
+    public void flush() throws IOException { if(!closed)wrapped.flush(); }
+    public void write(byte[] b)throws IOException { wrapped.write(b); }
+    public void write(int b)throws IOException { wrapped.write(b); }
+    public void write(byte[] b, int off, int len) throws IOException { wrapped.write(b, off, len);}
+}
 
 class MyLoggr implements com.jcraft.jsch.Logger {
     static java.util.HashMap<Integer, String> name = new HashMap<Integer, String>();
